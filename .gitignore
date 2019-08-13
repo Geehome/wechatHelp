@@ -1,3 +1,4 @@
+#忽略idea默认文件
 /.idea
 
 /META-INF
@@ -7,3 +8,5 @@
 wechatHelp.iml
 
 /target
+
+*.MF
