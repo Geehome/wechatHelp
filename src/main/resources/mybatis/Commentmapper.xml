@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mapper.Commentmapper">
+
+    <resultMap id="comment" type="com.pojo.t_comment">
+        <result property="comment_uid" column="comment_uid"/>
+        <result property="c_aid" column="c_aid"/>
+        <result property="c_time" column="c_time"/>
+        <result property="description" column="description"/>
+        <association property="user" javaType="com.pojo.User">
+            <id property="id" column="id"/>
+            <result property="name" column="name"/>
+        </association>
+    </resultMap>
+
+    <select id="selectCommentByAid" resultMap="comment">
+           select t_comment.*,`name` FROM t_comment  LEFT JOIN `user`  ON id = comment_uid WHERE c_aid = #{aid} order by c_time desc
+    </select>
+
+    <insert id="insertComment" parameterType="com.pojo.t_comment">
+        insert into t_comment VALUES (#{comment_uid},#{c_aid},#{c_time},#{description})
+    </insert>
+</mapper>
+

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mapper.LikeMapper">
+
+    <select id="checkRepeatLike" parameterType="Integer" resultType="Integer">
+        SELECT * FROM t_like WHERE like_uid = #{uid} AND like_aid = #{aid}
+    </select>
+
+    <insert id="insertLike" parameterType="Integer">
+        INSERT INTO t_like (like_uid,like_aid) VALUES (#{uid},#{aid})
+    </insert>
+
+
+</mapper>
+

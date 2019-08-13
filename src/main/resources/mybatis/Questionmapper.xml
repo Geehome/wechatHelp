@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.mapper.QuestionMapper" >
+
+    <resultMap id="Question_Answer" type="com.pojo.Question">
+        <id property="qid" column="qid"/>
+        <result property="uid" column="uid"/>
+        <result property="img" column="img"/>
+        <result property="description" column="description"/>
+        <result property="pv" column="pv"/>
+        <result property="reward" column="reward"/>
+        <result property="qtime" column="qtime"/>
+        <result property="title" column="title"/>
+        <collection property="answers" ofType="com.pojo.Answer">
+            <id property="aid" column="aid"/>
+            <result property="answer" column="answer"/>
+        </collection>
+    </resultMap>
+
+    <select id="count" resultType="Integer">
+        select count(qid) from question;
+    </select>
+    <select id ="insertQuestion" parameterType="com.pojo.Question">
+         INSERT INTO question(qid,uid,description,img,pv,AcceptAid,stat,reward,qtime,title) VALUES
+         (#{qid},#{uid},#{description},#{img},#{pv},#{acceptAid},#{stat},#{reward},#{qtime},#{title})
+    </select>
+
+    <select id = "selectById" resultType="com.pojo.Question">
+        SELECT * from question where qid = #{qid}
+    </select>
+
+    <update id="changeStatus" parameterType="java.lang.Integer">
+        UPDATE  question SET stat = 1,AcceptAid = #{aid} WHERE qid = #{qid}
+    </update>
+
+    <select id="selectByUserId" resultType="com.pojo.Question">
+        select * from question where uid = #{uid} order by qtime DESC
+    </select>
+
+
+    <select id="selectByUserIdLeftJoinAnswer" resultMap="Question_Answer" parameterType="Integer">
+        select q.*,a.answer from question as  q  JOIN answer as  a on q.qid = a.qid where q.uid = #{uid}
+    </select>
+
+    <update id="updatePvByQid">
+        UPDATE question set pv = pv+1 where qid = #{qid}
+    </update>
+
+    <select id="searchQuestionList"   resultType="com.pojo.Question">
+        select * from question where match(description) AGAINST (#{text}) or match(title) AGAINST (#{text})
+    </select>
+
+</mapper>

@@ -1,0 +1,47 @@
+<!DOCTYPE html >
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link type="text/css" rel="stylesheet" href="css/in.css"/>
+    <title>用户注册界面</title>
+
+    <script language="javascript">
+        function checkvalid2()
+        {
+            var strmg=register.username.value;
+            var pass=register.password.value;
+            if(strmg=="" ||  pass=="")
+            {
+                alert("用户名或密码为空,请输入用户名和密码...");
+//login.pwd.value=" ";
+                return false;
+            }
+            else
+                return true;
+        }
+    </script>
+</head>
+
+<body>
+<div class="onee" >
+    <form name="register" action="register2.jsp" method="post" >
+        <div class="two" >
+            <div>
+                昵称：<input type="text"  name="username"  id="username"  autocomplete="off" oncopy="return false"
+                          oncut="return false" onpaste="return false" placeholder="请输入昵称" />
+            </div>
+            <div>
+                密码：<input type="password" name="password" id="password"  autocomplete="off" oncopy="return false"
+                          oncut="return false" onpaste="return false"  maxlength=8  placeholder="请输入密码"/>
+            </div>
+
+            <div class="four">
+                <input id="pic3" type="submit" value="" onClick="return checkvalid2()"/>
+            </div>
+        </div>
+    </form>
+</div>
+
+
+</body>
+</html>

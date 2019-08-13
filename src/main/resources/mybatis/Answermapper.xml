@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mapper.AnswerMapper">
+
+    <resultMap type="com.pojo.Answer" id="AnsMap">
+        <result column="aid" property="aid"/>
+        <result column="answer" property="answer"/>
+        <result column="qid" property="qid"/>
+        <result column="quid" property="quid"/>
+        <result column="auid" property="auid"/>
+        <result column="accepted" property="accepted"/>
+        <result column="doctorid" property="doctorid"/>
+        <result column="atime" property="atime"/>
+        <result column="ans_pv" property="ans_pv"/>
+        <result column="like_sum" property="like_sum"/>
+        <result column="ans_reply_sum" property="ans_reply_sum"/>
+
+        <association property="user"  javaType="com.pojo.User">
+            <result column="name" property="name"/>
+        </association>
+
+    </resultMap>
+
+
+
+    <select id="getAnwserByQid" resultMap="AnsMap">
+        SELECT c.*,u.`name` from answer  c LEFT JOIN `user` u on c.auid = u.id where c.qid = #{qid} order BY c.like_sum DESC
+    </select>
+
+    <select id="selectByQid" resultType="com.pojo.Answer">
+      SELECT * from answer where qid = #{qid}
+    </select>
+
+    <select id="count" resultType="Integer">
+        SELECT count(aid) from answer
+    </select>
+
+    <insert id="insert"  parameterType="com.pojo.Answer">
+        INSERT INTO answer(aid,answer,qid,auid,accepted,atime) VALUES (#{aid},#{answer},#{qid},#{auid},#{accepted},#{atime})
+    </insert>
+
+    <update id="changeStatus" parameterType="java.lang.Integer">
+        update answer set accepted = 1 where aid = #{aid}
+    </update>
+
+    <select id="selectByAid" resultType="com.pojo.Answer">
+        SELECT * from answer where aid = #{aid}
+    </select>
+
+    <select id="selectByAuid" resultType="com.pojo.Answer">
+        SELECT * from answer where auid = #{auid}
+    </select>
+
+    <select id = "countByQid"  resultType="Integer">
+        SELECT count(*) from answer where qid=#{qid}
+    </select>
+
+    <update id="updatePvByAid">
+        UPDATE answer SET ans_pv = ans_pv+1 where aid = #{aid}
+    </update>
+
+    <update id="updateLikeByAid">
+        UPDATE answer SET like_sum = like_sum+1 WHERE aid = #{aid}
+    </update>
+
+    <update id="commentIncrement" parameterType="Integer">
+        UPDATE answer set ans_reply_sum = ans_reply_sum+1 WHERE aid = #{aid}
+    </update>
+</mapper>
+
